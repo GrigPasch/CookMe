@@ -1,0 +1,205 @@
+.hero {
+  position: relative;
+  height: 100svh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--white);
+}
+
+/* ── Background ──────────────────────────────────────────── */
+.hero__bg {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+}
+
+/* Simulated nature photography with rich gradient */
+.hero__bg-img {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 70% 40%, #2d5a20 0%, transparent 55%),
+    radial-gradient(ellipse at 20% 70%, #1a3a14 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 20%, #3c6b28 0%, transparent 40%),
+    linear-gradient(160deg, #0a1a08 0%, #1e3818 35%, #0d2a0c 60%, #060f05 100%);
+}
+
+/* Subtle grain texture overlay */
+.hero__bg-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 128px;
+  opacity: 0.35;
+}
+
+.hero__bg-grad {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 60% 50%, rgba(58, 92, 48, 0.2) 0%, transparent 70%);
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 15, 5, 0.15) 0%,
+    rgba(6, 15, 5, 0.05) 40%,
+    rgba(6, 15, 5, 0.55) 100%
+  );
+  z-index: 1;
+}
+
+/* ── Content ─────────────────────────────────────────────── */
+.hero__content {
+  position: relative;
+  z-index: 2;
+  padding: var(--section-px);
+  padding-top: calc(var(--nav-h) + 3rem);
+  max-width: 900px;
+}
+
+.hero__eyebrow {
+  color: rgba(255,255,255,0.55);
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.hero__headline {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 5.5vw, 9.5rem);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-bottom: 2.5rem;
+}
+
+/* Clip each line for the slide-up reveal */
+.hero__line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em; /* prevent descender clip */
+}
+
+.hero__line-inner {
+  display: block;
+}
+
+.hero__line--italic {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.hero__sub {
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  line-height: 1.75;
+  color: rgba(255,255,255,0.72);
+  margin-bottom: 3rem;
+  max-width: 480px;
+}
+
+.hero__cta {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.hero__link {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  position: relative;
+  padding-bottom: 2px;
+  transition: color 0.3s ease;
+}
+.hero__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--white);
+  transition: width 0.4s var(--ease-out);
+}
+.hero__link:hover { color: var(--white); }
+.hero__link:hover::after { width: 100%; }
+
+/* ── Scroll indicator ────────────────────────────────────── */
+.hero__scroll-indicator {
+  position: absolute;
+  bottom: 5rem;
+  right: var(--section-px);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgba(255,255,255,0.45);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  writing-mode: vertical-lr;
+}
+
+.hero__scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(255,255,255,0));
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+@keyframes scrollLine {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ── Bottom stats bar ────────────────────────────────────── */
+.hero__bottom-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 2;
+  display: flex;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  padding: 1.5rem var(--section-px);
+  gap: 2rem;
+  background: rgba(6, 15, 5, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+}
+.hero__stat + .hero__stat {
+  border-left: 1px solid rgba(255,255,255,0.12);
+  padding-left: 2rem;
+}
+
+.hero__stat-num {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 400;
+  color: var(--gold-light);
+  line-height: 1;
+}
+
+.hero__stat-label {
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+}

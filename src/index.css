@@ -1,0 +1,160 @@
+/* ============================================================
+   DUYVENVOORDE — GLOBAL STYLES
+   ============================================================ */
+
+:root {
+  /* Colors */
+  --cream:        #f4ede2;
+  --cream-dark:   #e8ddd0;
+  --green-deep:   #111c10;
+  --cursor-green: #c1f0bc;
+  --green-mid:    #1e3018;
+  --green-light:  #3a5c30;
+  --gold:         #b8935a;
+  --gold-light:   #d4b07a;
+  --white:        #faf9f6;
+  --text-dark:    #111c10;
+  --text-mid:     #4a5c42;
+  --text-muted:   #8a9e82;
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  /* Spacing */
+  --nav-h:        80px;
+  --section-px:   clamp(1.5rem, 5vw, 6rem);
+  --section-py:   clamp(5rem, 10vw, 12rem);
+
+  /* Easing */
+  --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:  cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ── Reset ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: auto; }
+
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  background: var(--cream);
+  color: var(--text-dark);
+  overflow-x: hidden;
+  /* Lenis needs this */
+  overflow-y: scroll;
+  cursor: none;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hide native cursor */
+* { cursor: none !important; }
+
+img, video { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { border: none; background: none; cursor: none; font: inherit; }
+ul { list-style: none; }
+
+/* ── Custom Cursor ──────────────────────────────────────── */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  transition: width 0.25s var(--ease-out),
+              height 0.25s var(--ease-out),
+              background 0.25s var(--ease-out),
+              border-color 0.25s var(--ease-out),
+              opacity 0.25s var(--ease-out);
+}
+
+.cursor-dot {
+  width: 6px; height: 6px;
+  background: var(--cursor-green);
+}
+
+.cursor-ring {
+  width: 38px; height: 38px;
+  border: 1.5px solid var(--cursor-green);
+  background: transparent;
+  transition-duration: 0.08s;
+}
+
+.cursor-dot.is-hovering { width: 0px; height: 0px; opacity: 0; }
+.cursor-ring.is-hovering {
+  width: 70px; height: 70px;
+  background: rgba(82, 211, 70, 0.08);
+  border-color: var(--cursor-green);
+}
+
+/* ── Utility / Helpers ──────────────────────────────────── */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* GSAP clip-reveal helper — applied via JS */
+.clip-wrap { overflow: hidden; }
+.clip-inner { will-change: transform; }
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--green-light); border-radius: 2px; }
+
+/* ── Page wrapper (Lenis needs fixed height) ─────────────── */
+#root { min-height: 100vh; }
+
+/* ── Section helpers ─────────────────────────────────────── */
+.section-label {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.85rem 2rem;
+  border: 1.5px solid currentColor;
+  transition: background 0.4s var(--ease-out), color 0.4s var(--ease-out);
+}
+
+.btn-dark {
+  color: var(--white);
+  border-color: rgba(255,255,255,0.4);
+}
+.btn-dark:hover { background: var(--white); color: var(--green-deep); }
+
+.btn-light {
+  color: var(--green-deep);
+  border-color: var(--green-deep);
+}
+.btn-light:hover { background: var(--green-deep); color: var(--white); }
+
+.btn-gold {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+.btn-gold:hover { background: var(--gold); color: var(--white); }
+
+/* Arrow icon inside buttons */
+.btn-arrow {
+  width: 16px; height: 16px;
+  transition: transform 0.35s var(--ease-out);
+}
+.btn:hover .btn-arrow { transform: translate(3px, -3px); }

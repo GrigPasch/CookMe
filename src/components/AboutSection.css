@@ -1,0 +1,112 @@
+.about {
+  padding: var(--section-py) var(--section-px);
+  background: var(--white);
+}
+
+.about__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: center;
+}
+
+/* ── Text ────────────────────────────────────────────────── */
+.about__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.about__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4.5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--green-deep);
+}
+.about__title em { font-style: italic; color: var(--text-mid); }
+
+.about__body {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--text-mid);
+  max-width: 420px;
+}
+
+.about__values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.about__value-tag {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--cream-dark);
+  color: var(--text-mid);
+  background: var(--cream);
+  border-radius: 2px;
+}
+
+/* ── Media ───────────────────────────────────────────────── */
+.about__media {
+  position: relative;
+}
+
+.about__img-wrap {
+  position: relative;
+  overflow: hidden;
+  clip-path: inset(0% 100% 0% 0%); /* GSAP reveals */
+  border-radius: 2px;
+}
+
+.about__img-inner {
+  will-change: transform;
+}
+
+.about__img-placeholder {
+  aspect-ratio: 4/5;
+  background:
+    radial-gradient(ellipse at 30% 20%, #2a5c18 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 60%, #1a3c10 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 80%, #3a6a20 0%, transparent 55%),
+    linear-gradient(160deg, #1a3010 0%, #2a5020 40%, #1e4018 70%, #0f2008 100%);
+}
+
+.about__img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10, 20, 8, 0.45) 0%, transparent 60%);
+}
+
+/* Large year stamp */
+.about__year {
+  position: absolute;
+  bottom: -1.5rem;
+  left: -2rem;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 10vw, 10rem);
+  font-weight: 600;
+  color: var(--cream);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  z-index: 2;
+  pointer-events: none;
+  /* Outline text effect */
+  -webkit-text-stroke: 1.5px var(--cream-dark);
+  color: transparent;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .about__inner {
+    grid-template-columns: 1fr;
+  }
+  .about__media { order: -1; }
+  .about__year { left: 0; font-size: 5rem; }
+}
