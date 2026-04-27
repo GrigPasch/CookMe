@@ -67,7 +67,7 @@ function Layout() {
         <Routes>
           <Route path="/"           element={<Home />} />
           <Route path="/καταλογος" element={<Assortment />} />
-          <Route path="/καταλογος/*" element={<Assortment />} />
+          <Route path="/καταλογος" element={<Assortment />} />
           <Route path="/about"      element={<About />} />
           <Route path="/contact"    element={<Contact />} />
         </Routes>

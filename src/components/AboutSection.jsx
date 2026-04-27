@@ -11,7 +11,6 @@ export default function AboutSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Left text block staggered reveal
       gsap.fromTo(
         '.about__text > *',
         { y: 50, opacity: 0 },
@@ -21,7 +20,6 @@ export default function AboutSection() {
         }
       )
 
-      // Image clip-path wipe reveal
       gsap.fromTo(
         '.about__img-wrap',
         { clipPath: 'inset(0% 100% 0% 0%)' },
@@ -32,7 +30,6 @@ export default function AboutSection() {
         }
       )
 
-      // Parallax on inner image
       gsap.to('.about__img-inner', {
         yPercent: -12,
         ease: 'none',
@@ -44,7 +41,6 @@ export default function AboutSection() {
         },
       })
 
-      // Year number counter animation
       const yearEl = document.querySelector('.about__year')
       if (yearEl) {
         gsap.fromTo(
@@ -64,7 +60,6 @@ export default function AboutSection() {
   return (
     <section ref={sectionRef} className="about">
       <div className="about__inner">
-        {/* Left: text */}
         <div className="about__text">
           <span className="section-label">Σχετικά με εμάς</span>
           <h2 className="about__title">
@@ -86,11 +81,9 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Right: image with year overlay */}
         <div className="about__media">
           <div className="about__img-wrap">
             <div className="about__img-inner">
-              {/* Placeholder image — large lush greenhouse aesthetic */}
               <div className="about__img-placeholder" />
             </div>
             <div className="about__img-overlay" />
