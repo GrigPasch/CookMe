@@ -66,8 +66,8 @@ function Layout() {
       <PageTransition key={location.pathname}>
         <Routes>
           <Route path="/"           element={<Home />} />
-          <Route path="/καταλογος" element={<Assortment />} />
-          <Route path="/καταλογος" element={<Assortment />} />
+          <Route path="/katalogos" element={<Assortment />} />
+          <Route path="/katalogos/*" element={<Assortment />} />
           <Route path="/about"      element={<About />} />
           <Route path="/contact"    element={<Contact />} />
         </Routes>

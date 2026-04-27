@@ -61,7 +61,7 @@ export default function Nav() {
 
   const navLinks = [
     { to: '/',           label: 'Αρχική' },
-    { to: '/καταλογος', label: 'Γεύσεις' },
+    { to: '/katalogos', label: 'Γεύσεις' },
     { to: '/about',      label: 'Σχετικά με εμάς' },
     { to: '/contact',    label: 'Επικοινωνία' },
   ]
@@ -80,7 +80,7 @@ export default function Nav() {
             <span className="nav__lang-sep">·</span>
           </div>
 
-          <a href="/καταλογος" className="nav__webshop hoverable">Κατάλογος</a>
+          <a href="/katalogos" className="nav__webshop hoverable">Κατάλογος</a>
 
           <button
             className={`nav__burger hoverable ${menuOpen ? 'open' : ''}`}
