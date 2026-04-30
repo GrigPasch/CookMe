@@ -2,17 +2,19 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import Marquee from '../components/Marquee'
+import ProductCard from '../components/ProductCard'
 import './PageStyles.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const FILTERS = [
-                  'Όλα', 'Μπαχαρικά', 'Αποξηραμένα', 'Ζαχαροπλαστική',
-                  'Τσάι Ζεστό', 'Ice Tea', 'Μείγματα', 'Υπερτροφές', 
-                  'Γρανίτες', 'Milkshakes']
+  'Όλα', 'Μπαχαρικά', 'Αποξηραμένα', 'Ζαχαροπλαστική',
+  'Τσάι Ζεστό', 'Ice Tea', 'Μείγματα', 'Υπερτροφές',
+  'Γρανίτες', 'Milkshakes',
+]
 
 const PRODUCTS = [
-  { name: 'Μαύρο πιπέρι τριμμένο', type: 'Μπαχαρικά', img: '/assets/mauro-piperi-trimmeno.jpg' },
+  { name: 'Μαύρο πιπέρι τριμμένο', origin: 'Ecuador · Colombia', desc: 'Το πιπέρι είναι μακράν το πιο διαδεδομένο και διαφημισμένο μπαχαρικό στη Δύση και εξακολουθεί να είναι ο βασιλιάς των κουζινών στον κόσμο σήμερα.',package:'Crystal - Διαφανής | Delicate - Αλουμινίου | Γυάλινο Βάζο με Διατρητό Καπάκι', type: 'Μπαχαρικά', img: '/assets/mauro-piperi-trimmeno.jpg' },
   { name: 'Γλυκιά πάπρικα 200 Asta', type: 'Μπαχαρικά', img: '/assets/glykia-paprika-200-asta-skoni.jpg' },
   { name: 'Κόκκινο Πιπέρι Τριμμένο Καυτερό (Chili)', type: 'Μπαχαρικά', img: '/assets/kokkino-piperi-trimmeno-kautero-chili.jpg' },
   { name: 'Πιπέρι Μιξ Σπυρί', type: 'Μπαχαρικά', img: '/assets/piperi-mix-spyri.jpg' },
@@ -54,8 +56,8 @@ const PRODUCTS = [
   { name: 'Καρύκευμα για Τζατζίκι (Μείγμα)', type: 'Μπαχαρικά, Μείγματα', img: '/assets/karykeuma-gia-tzatziki-meigma.jpg' },
   { name: 'Μαχλέπι Τριμμένο', type: 'Μπαχαρικά, Ζαχαροπλαστική', img: '/assets/maxlepi-trimmeno.jpg' },
   { name: 'Μαχλέπι Σπυρί', type: 'Μπαχαρικά, Ζαχαροπλαστική', img: '/assets/maxlepi-spyri.jpg' },
-  { name: 'Λιναρόσπορος Χρυσός (Σπόροι)', type: 'Μπαχαρικά, Υpεpτpoφές', img: '/assets/linarosporos-xrysos-sporoi.jpg' },
-  { name: 'Λιναρόσπορος Καφέ (Σπόροι)', type: 'Μπαχαρικά, Υpεpτpoφές', img: '/assets/linarosporos-kafe-sporoi.jpg' },
+  { name: 'Λιναρόσπορος Χρυσός (Σπόροι)', type: 'Μπαχαρικά, Υπερτροφές', img: '/assets/linarosporos-xrysos-sporoi.jpg' },
+  { name: 'Λιναρόσπορος Καφέ (Σπόροι)', type: 'Μπαχαρικά, Υπερτροφές', img: '/assets/linarosporos-kafe-sporoi.jpg' },
   { name: 'Σησάμι Λευκό Αποξηραμένο (Σπόροι)', type: 'Μπαχαρικά, Υπερτροφές', img: '/assets/sisami-leyko-apoksirameno-sporoi.jpg' },
   { name: 'Τρούφα Μαύρης Σοκολάτας (Διακοσμητική)', type: 'Μπαχαρικά, Ζαχαροπλαστική', img: '/assets/troufa-mauris-sokolatas-diakosmitiki.jpg' },
   { name: 'Γρανίτα Φράουλα', type: 'Γρανίτες', img: '/assets/granita-fraoula.jpg' },
@@ -66,18 +68,18 @@ const PRODUCTS = [
   { name: 'Milkshake Banoffee', type: 'Milkshakes', img: '/assets/milkshake-banoffee.jpg' },
   { name: 'Milkshake Σοκολάτα', type: 'Milkshakes', img: '/assets/milkshake-sokolata.jpg' },
   { name: 'Milkshake Φράουλα - Βανίλια', type: 'Milkshakes', img: '/assets/milkshake-fraoula.jpg' },
-  { name: 'Φρούτα του Δάσους με Στέβια (Τσάι Στιγμιαίο - Ice Tea)', type: 'Ice Tea', img: '/assets/tea-frouta-tou-dasous-me-stevia.jpg' },
-  { name: 'Φράουλα με Στέβiα (Τσάι Στιγμiαίo - Ice Tea)', type: 'Ice Tea', img: '/assets/tea-fraoula-me-stevia.jpg' },
-  { name: 'Λεμόνι με Στέβια (Τσάι Στιγμιαίο - Ice Tea)', type: 'Ice Tea', img: '/assets/tea-lemoni-me-stevia.jpg' },
-  { name: 'Πράσινο Μήλο με Στέβια (Τσάι Στιγμιαίο - Ice Tea)', type: 'Ice Tea', img: '/assets/tea-prasino-milo-me-stevia.jpg' },
-  { name: 'Ροδάκινο με Στέβια (Τσάι Στιγμιαίο - Ice Tea)', type: 'Ice Tea', img: '/assets/tea-rodakino-me-stevia.jpg' },
+  { name: 'Φρούτα του Δάσους με Στέβια (Ice Tea)', type: 'Ice Tea', img: '/assets/tea-frouta-tou-dasous-me-stevia.jpg' },
+  { name: 'Φράουλα με Στέβiα (Ice Tea)', type: 'Ice Tea', img: '/assets/tea-fraoula-me-stevia.jpg' },
+  { name: 'Λεμόνι με Στέβια (Ice Tea)', type: 'Ice Tea', img: '/assets/tea-lemoni-me-stevia.jpg' },
+  { name: 'Πράσινο Μήλο με Στέβια (Ice Tea)', type: 'Ice Tea', img: '/assets/tea-prasino-milo-me-stevia.jpg' },
+  { name: 'Ροδάκινο με Στέβια (Ice Tea)', type: 'Ice Tea', img: '/assets/tea-rodakino-me-stevia.jpg' },
   { name: 'Πάπρικα Καπνιστή', type: 'Μπαχαρικά', img: '/assets/paprika-kapnisti.jpg' },
   { name: 'Κόκκινο Πιπέρι Τριμμένο Καγιέν', type: 'Μπαχαρικά', img: '/assets/kokkino-piperi-trimmeno-kayen.jpg' },
   { name: 'Κρεμμύδι (Αποξηραμένο σε Σκόνη)', type: 'Αποξηραμένα', img: '/assets/kremmudi-apoksirameno-skoni.jpg' },
   { name: 'Κρεμμύδι (Αποξηραμένο σε Νιφάδες)', type: 'Αποξηραμένα', img: '/assets/kremmudi-apoksirameno-nifades.jpg' },
-  { name: 'Σκόρδo (Αποξηραμένο σe Νiφάδeς)', type: 'Απoξηpaμέvnα', img: '/assets/skordo-apoksirameno-nifades.jpg' },
-  { name: 'Σκόρδo (Αποξηραμένο σe Σκόνη)', type: 'Αποξηραμένα', img: '/assets/skordo-apoksirameno-skoni.jpg' },
-  { name: 'Πoρτoκάλi (Αποξηραμένο σe Σκόνη)', type: 'Αποξηραμένα', img: '/assets/portokali-apoksirameno-skoni.jpg' },
+  { name: 'Σκόρδo (Αποξηραμένο σε Νιφάδες)', type: 'Αποξηραμένα', img: '/assets/skordo-apoksirameno-nifades.jpg' },
+  { name: 'Σκόρδo (Αποξηραμένο σε Σκόνη)', type: 'Αποξηραμένα', img: '/assets/skordo-apoksirameno-skoni.jpg' },
+  { name: 'Πορτοκάλι (Αποξηραμένο σε Σκόνη)', type: 'Αποξηραμένα', img: '/assets/portokali-apoksirameno-skoni.jpg' },
   { name: 'Λεμόνι (Αποξηραμένο σε Σκόνη)', type: 'Αποξηραμένα', img: '/assets/lemoni-apoksirameno-skoni.jpg' },
   { name: 'Ρίγανη Ελληνική τριμμένη', type: 'Αποξηραμένα', img: '/assets/oregano-ellhniki-trimmeni.jpg' },
   { name: 'Δυόσμος (Αποξηραμένος τριμμένος)', type: 'Αποξηραμένα', img: '/assets/dyosmos-apoksirammenos-trimmenos.jpg' },
@@ -86,15 +88,15 @@ const PRODUCTS = [
   { name: 'Μοσχοκάρυδο (Καρπός)', type: 'Μπαχαρικά, Ζαχαροπλαστική', img: '/assets/mosxokarydo-karpos.jpg' },
   { name: 'Βανιλίνη (Φιαλίδια)', type: 'Μπαχαρικά, Ζαχαροπλαστική', img: '/assets/vanilini-fialidia.jpg' },
   { name: 'Κιτρικό Οξύ (Ξινό)', type: 'Μπαχαρικά, Ζαχαροπλαστική', img: '/assets/kitriko-oksi-ksino.jpg' },
-  { name: 'Άνθoς Χαμομήλι (Αποξηραμένο)', type: 'Τσάι Ζεστό', img: '/assets/anthos-xamomili-apoksirameno.jpg' },
+  { name: 'Άνθος Χαμομήλι (Αποξηραμένο)', type: 'Τσάι Ζεστό', img: '/assets/anthos-xamomili-apoksirameno.jpg' },
   { name: 'ΤΣΙΑ Αποξηραμένοι Σπόροι', type: 'Μπαχαρικά, Υπερτροφές', img: '/assets/tsia-apokshramenoi-sporoi.jpg' },
   { name: 'Άνηθος (Αποξηραμένος Τριμμένος)', type: 'Αποξηραμένα', img: '/assets/anithos-apoksiramenos-trimmenos.jpg' },
   { name: 'Διττανθρακική (Μαγειρική) Σόδα', type: 'Μπαχαρικά, Ζαχαροπλαστική', img: '/assets/dittanthrakiki-mageiriki-soda.jpg' },
   { name: 'Λουίζα (Αποξηραμένη)', type: 'Τσάι Ζεστό', img: '/assets/luiza-apoksirameni-fylla.jpg' },
   { name: 'Μουστάρδα Σκόνη', type: 'Μπαχαρικά', img: '/assets/moustarda-skoni.jpg' },
   { name: 'Λεμονοπίπερο (Μείγμα)', type: 'Μπαχαρικά, Μείγματα', img: '/assets/lemonopipero-meigma.jpg' },
-  { name: 'Ανατολίτικο (Μείγμα για Κoτόπουλo)', type: 'Μπαχαρικά, Μείγματα', img: '/assets/anatolitiko-meigma-gia-kotopoula.jpg' },
-  { name: 'Καρύκευμα για Κοτόπουλο(Μείγμα)', type: 'Μπαχαρικά, Μείγματα', img: '/assets/karykeuma-gia-kotopoulo-meigma.jpg' },
+  { name: 'Ανατολίτικο (Μείγμα για Κοτόπουλο)', type: 'Μπαχαρικά, Μείγματα', img: '/assets/anatolitiko-meigma-gia-kotopoula.jpg' },
+  { name: 'Καρύκευμα για Κοτόπουλο (Μείγμα)', type: 'Μπαχαρικά, Μείγματα', img: '/assets/karykeuma-gia-kotopoulo-meigma.jpg' },
   { name: 'Καρύκευμα για Κεφτέδες (Μείγμα)', type: 'Μπαχαρικά, Μείγματα', img: '/assets/karykeuma-gia-keftedes-meigma.jpg' },
   { name: 'Καρύκευμα για Ψητά (Μείγμα)', type: 'Μπαχαρικά, Μείγματα', img: '/assets/karykeuma-gia-psita-meigma.jpg' },
   { name: 'Καρύκευμα για Πατάτες (Μείγμα)', type: 'Μπαχαρικά, Μείγματα', img: '/assets/karykeuma-gia-patates-meigma.jpg' },
@@ -103,12 +105,12 @@ const PRODUCTS = [
   { name: 'Γρανίτα Φράουλα & Blueberry', type: 'Γρανίτες', img: '/assets/granita-fraoula-blueberry.jpg' },
   { name: 'Γρανίτα Mango & Passion fruit', type: 'Γρανίτες', img: '/assets/granita-mango-passion-fruit.jpg' },
   { name: 'Γρανίτα Καρπούζι', type: 'Γρανίτες', img: '/assets/granita-karpouzi.jpg' },
-  { name: 'Πράσινο Τσάι με κομμάτια Καραμέλας (Αρωματικό Τσάι)', type: 'Τσάι Ζεστό', img: '/assets/prasino-tsai-me-kommatia-karamellas.jpg' },
-  { name: 'Φράουλα - Πορτοκάλι Herbal Tea (Αρωματικό Τσάι)', type: 'Τσάι Ζεστό', img: '/assets/fraoula-portokali-herbal-tea.jpg' },
-  { name: 'Πράσινο Τσάι Ευωδιαστός Κήπος (Αρωματικό Τσάι)', type: 'Τσάι Ζεστό', img: '/assets/prasino-tsai-evwdiastos-kipos.jpg' },
-  { name: 'Παιδικές Αναμνήσεις Herbal Tea (Αρωματικό Τσάι)', type: 'Τσάι Ζεστό', img: '/assets/paidikes-anamniseis-herbal-tea.jpg' },
+  { name: 'Πράσινο Τσάι με Καραμέλα (Αρωματικό Τσάι)', type: 'Τσάι Ζεστό', img: '/assets/prasino-tsai-me-kommatia-karamellas.jpg' },
+  { name: 'Φράουλα - Πορτοκάλι Herbal Tea', type: 'Τσάι Ζεστό', img: '/assets/fraoula-portokali-herbal-tea.jpg' },
+  { name: 'Πράσινο Τσάι Ευωδιαστός Κήπος', type: 'Τσάι Ζεστό', img: '/assets/prasino-tsai-evwdiastos-kipos.jpg' },
+  { name: 'Παιδικές Αναμνήσεις Herbal Tea', type: 'Τσάι Ζεστό', img: '/assets/paidikes-anamniseis-herbal-tea.jpg' },
   { name: 'Christmas Tea (Αρωματικό Τσάι)', type: 'Τσάι Ζεστό', img: '/assets/christmas-tea-arwmatiko-tsai.jpg' },
-  { name: 'Milkshake t. Ferrero', type: 'Milkshakes', img: '/assets/milkshake-ferrero.jpg' }
+  { name: 'Milkshake t. Ferrero', type: 'Milkshakes', img: '/assets/milkshake-ferrero.jpg' },
 ]
 
 export default function Assortment() {
@@ -119,6 +121,7 @@ export default function Assortment() {
     ? PRODUCTS
     : PRODUCTS.filter((p) => p.type.includes(activeFilter))
 
+  // Page entrance — hero only
   useEffect(() => {
     window.scrollTo(0, 0)
     const ctx = gsap.context(() => {
@@ -127,24 +130,16 @@ export default function Assortment() {
         { y: 50, opacity: 0 },
         { y: 0, opacity: 1, stagger: 0.1, duration: 0.9, ease: 'power3.out', delay: 0.1 }
       )
-      gsap.fromTo(
-        '.assortment-grid__item',
-        { y: 40, opacity: 0, clipPath: 'inset(20% 0% 0% 0%)' },
-        {
-          y: 0, opacity: 1, clipPath: 'inset(0% 0% 0% 0%)',
-          stagger: 0.08, duration: 0.85, ease: 'power3.out',
-          scrollTrigger: { trigger: '.assortment-grid', start: 'top 80%' },
-        }
-      )
     }, pageRef)
     return () => ctx.revert()
   }, [])
 
+  // Re-animate cards whenever filter changes
   useEffect(() => {
     gsap.fromTo(
-      '.assortment-grid__item',
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, stagger: 0.05, duration: 0.45, ease: 'power2.out' }
+      '.pcard',
+      { y: 22, opacity: 0 },
+      { y: 0, opacity: 1, stagger: 0.04, duration: 0.5, ease: 'power2.out' }
     )
   }, [activeFilter])
 
@@ -171,7 +166,7 @@ export default function Assortment() {
             <button
               key={f}
               className={`filter-btn hoverable ${f === activeFilter ? 'active' : ''}`}
-              onClick={() => setActiveFilter(f)}  // ← wire up the click
+              onClick={() => setActiveFilter(f)}
             >
               {f}
             </button>
@@ -180,22 +175,7 @@ export default function Assortment() {
 
         <div className="assortment-grid">
           {filteredProducts.map((p, i) => (
-            <div key={i} className="assortment-grid__item hoverable">
-              <div className="assortment-grid__img">
-                <div className="assortment-grid__circle" style={{ borderColor: '#e0dcd0' }} />
-                  <img 
-                    src={p.img} 
-                    alt={p.name} 
-                    className="product-image-render"
-                    onError={(e) => { e.target.src = '/assets/placeholder.png'; }}
-                  />
-              </div>
-              <div className="assortment-grid__info">
-                <span className="assortment-grid__type">{p.type}</span>
-                <h3 className="assortment-grid__name">{p.name}</h3>
-                <span className="assortment-grid__origin">{p.origin}</span>
-              </div>
-            </div>
+            <ProductCard key={`${activeFilter}-${i}`} product={p} index={i} />
           ))}
         </div>
       </section>
